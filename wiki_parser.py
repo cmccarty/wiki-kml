@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from bs4 import BeautifulSoup
 import urllib2
 import re
@@ -92,6 +94,20 @@ def pull_data_for_url(url):
 		src = 'http:%s' % img['src']
 		data['image'] = src
 		
+		infobox_html = infobox.renderContents().decode('utf-8')
+		if infobox_html:
+			data['info'] = '<table>%s</table>' % infobox_html
+			
+	# description
+	
+	ps = soup.find_all('p')
+	if ps:
+		description = ''
+		for p in ps:
+			description = '%s<p>%s</p>' % (description, p.renderContents().decode('utf-8')  )
+	
+		data['description'] = description # p.decode('utf-8')
+	
 		
 	return data
 		

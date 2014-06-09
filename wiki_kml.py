@@ -20,7 +20,7 @@ def load_article_urls(url_file):
 	
 	print 'DONE'
 	
-	return article_urls
+	return list(set(article_urls)) # de-dupe
 	
 
 def build_kml(urls_file, output_file='output.kml'):
@@ -42,8 +42,19 @@ def build_kml(urls_file, output_file='output.kml'):
 		
 		pnt = kml.newpoint()
 		pnt.name = data['title']
+		description = ''
 		if data.get('image'):
-			pnt.description = '<img src="%s">' % data['image']
+			description = '<img src="%s">' % data['image']
+			
+		#if data.get('info'):
+		#	description = '%s<br>%s' % (description, data['info'])
+		
+		if data.get('description'):	
+			description = '%s<br>%s' % (description, data['description'])
+		
+			
+			
+		pnt.description = description
 			
 		pnt.coords = [(data['lon'], data['lat'])]
 		
