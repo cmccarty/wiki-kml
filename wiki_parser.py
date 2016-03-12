@@ -91,8 +91,9 @@ def pull_data_for_url(url):
 	infobox = soup.find('table', attrs={'class':'infobox'})
 	if infobox:
 		img = infobox.find('img')
-		src = 'http:%s' % img['src']
-		data['image'] = src
+		if img:
+		    src = 'http:%s' % img['src']
+		    data['image'] = src
 		
 		infobox_html = infobox.renderContents().decode('utf-8')
 		if infobox_html:
@@ -111,3 +112,10 @@ def pull_data_for_url(url):
 		
 	return data
 		
+		
+def test():
+    data = pull_data_for_url('https://en.wikipedia.org/wiki/Berlin')
+    print data['description']
+		
+if __name__ == '__main__':
+    test()

@@ -30,6 +30,7 @@ def build_kml(urls_file, output_file='output.kml'):
 	
 	# create KML document
 	kml = simplekml.Kml()
+	kml.parsetext(parse=False)
 	
 	print 'Pulling data from urls...'
 	for url in article_urls:
@@ -54,13 +55,12 @@ def build_kml(urls_file, output_file='output.kml'):
 		
 			
 			
-		pnt.description = description
+		pnt.description = '<![CDATA[%s]]>' % description
 			
 		pnt.coords = [(data['lon'], data['lat'])]
 		
-		
 	
-	kml.save(output_file)
+	kml.save(output_file, format=False)
 
 	
 	
